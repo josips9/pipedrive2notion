@@ -8,51 +8,51 @@ The Pipedrive to Notion Data Synchronization app is a powerful tool that automat
 
 ## Key Features:
 
-Data Retrieval from Pipedrive: The app retrieves deal data from Pipedrive, including deal titles, associated contact names and email addresses, organization details, deal owner, deal value, and other relevant information.
+**Data Retrieval from Pipedrive**: The app retrieves deal data from Pipedrive, including deal titles, associated contact names and email addresses, organization details, deal owner, deal value, and other relevant information.
 
-Data Transformation: The retrieved data is transformed into a structured format suitable for Notion databases. This includes formatting email addresses, handling organization details, and enriching deal data.
+**Data Transformation**: The retrieved data is transformed into a structured format suitable for Notion databases. This includes formatting email addresses, handling organization details, and enriching deal data.
 
-Data Validation: Before importing data into Notion, the app validates the format of the Pipedrive deal ID to ensure it meets the required criteria. Invalid IDs are flagged, and the app provides detailed error messages for easy debugging.
+**Data Validation**: Before importing data into Notion, the app validates the format of the Pipedrive deal ID to ensure it meets the required criteria. Invalid IDs are flagged, and the app provides detailed error messages for easy debugging.
 
-Notion Integration: The app seamlessly integrates with Notion, utilizing the Notion API to create, update, or skip records in a specified Notion database.
+**Notion Integration**: The app seamlessly integrates with Notion, utilizing the Notion API to create, update, or skip records in a specified Notion database.
 
-Duplicate Handling: The app checks if a page with the same "PipeDealId" already exists in Notion. If a duplicate is detected, the app skips the import, preventing redundant entries in the database.
+**Duplicate Handling**: The app checks if a page with the same "PipeDealId" already exists in Notion. If a duplicate is detected, the app skips the import, preventing redundant entries in the database.
 
 ## Workflow:
 
-Authentication: The app uses API keys to authenticate with both Pipedrive and Notion, ensuring secure data access.
+**Authentication**: The app uses API keys to authenticate with both Pipedrive and Notion, ensuring secure data access.
 
-Data Retrieval: It fetches deal data from Pipedrive, including associated contact and organization information.
+**Data Retrieval**: It fetches deal data from Pipedrive, including associated contact and organization information.
 
-Data Transformation: The app processes and enhances the data to ensure compatibility with Notion's database structure.
+**Data Transformation**: The app processes and enhances the data to ensure compatibility with Notion's database structure.
 
-Data Validation: The app verifies the format of Pipedrive deal IDs, ensuring they are in the correct format for use in Notion.
+**Data Validation**: The app verifies the format of Pipedrive deal IDs, ensuring they are in the correct format for use in Notion.
 
-Data Import: Validated data is sent to Notion, creating new database entries or updating existing ones as needed.
+**Data Import**: Validated data is sent to Notion, creating new database entries or updating existing ones as needed.
 
-Duplicate Handling: Duplicate Pipedrive deal IDs are identified, and their import is skipped to maintain database integrity.
+**Duplicate Handling**: Duplicate Pipedrive deal IDs are identified, and their import is skipped to maintain database integrity.
 
-Logging and Debugging: The app provides detailed logging and debugging capabilities, making it easy to monitor the synchronization process and troubleshoot any issues.
+**Logging and Debugging**: The app provides detailed logging and debugging capabilities, making it easy to monitor the synchronization process and troubleshoot any issues.
 
 ## Benefits:
 
-Efficiency: Businesses can automate the import process, saving time and reducing manual data entry.
+**Efficiency**: Businesses can automate the import process, saving time and reducing manual data entry.
 
-Data Accuracy: The app ensures data accuracy by validating and transforming information from Pipedrive to fit Notion's database structure.
+**Data Accuracy**: The app ensures data accuracy by validating and transforming information from Pipedrive to fit Notion's database structure.
 
-Centralization: All deal data is centralized in Notion, making it easily accessible and searchable.
+**Centralization**: All deal data is centralized in Notion, making it easily accessible and searchable.
 
-Error Handling: Detailed error messages help users quickly identify and resolve any issues.
+**Error Handling**: Detailed error messages help users quickly identify and resolve any issues.
 
-Customization: The app's modular design allows for customization to suit unique business needs.
+**Customization**: The app's modular design allows for customization to suit unique business needs.
 
 ## Use Cases:
 
-Sales Teams: Sales teams can use the app to synchronize their Pipedrive deals with Notion databases, ensuring up-to-date and organized customer information.
+**Sales Teams**: Sales teams can use the app to synchronize their Pipedrive deals with Notion databases, ensuring up-to-date and organized customer information.
 
-Project Management: Project managers can centralize project-related data from Pipedrive into Notion, enhancing collaboration and project tracking.
+**Project Management**: Project managers can centralize project-related data from Pipedrive into Notion, enhancing collaboration and project tracking.
 
-Marketing Campaigns: Marketing teams can import campaign data and associated contacts from Pipedrive into Notion, facilitating campaign analysis and reporting.
+**Marketing Campaigns**: Marketing teams can import campaign data and associated contacts from Pipedrive into Notion, facilitating campaign analysis and reporting.
 
 ## Requirements:
 
