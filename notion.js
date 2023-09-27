@@ -110,7 +110,9 @@ async function findNotionPageByPipeDealId(pipeDealId) {
   const isValidPipeDealId = /^\d+$/.test(pipeDealId);
 
   if (!isValidPipeDealId) {
-    throw new Error("Invalid pipeDealId format");
+    // Handle the case where pipeDealId is not a valid number
+    console.log("Invalid pipeDealId format");
+    return null; // or throw an error or handle it in some other way
   }
 
   const database_id = process.env.NOTION_DATABASE_ID;
@@ -118,7 +120,7 @@ async function findNotionPageByPipeDealId(pipeDealId) {
     database_id: database_id,
     filter: {
       property: "PipeDealId",
-      rich_text: {
+      number: {
         equals: pipeDealId,
       },
     },
@@ -131,55 +133,61 @@ async function findNotionPageByPipeDealId(pipeDealId) {
 }
 
 // Create new Notion page for each Pipedrive deal
-async function createNotionPage(pipeDealId) {
+async function createNotionPage(deal) {
   console.log("importedDealIds:", importedDealIds); // Debug: Print the imported deal IDs
 
-  const dealData = await getPipedriveDeals(); // Wait for getPipedriveDeals to complete
+  console.log("Processing deal ID:", deal.dealId); // Debug: Print the current deal ID
 
-  for (let deal of dealsArray) {
-    console.log("Processing deal ID:", deal.dealId); // Debug: Print the current deal ID
+  // Check if a page with the same "PipeDealId" exists in Notion
+  const existingPage = await findNotionPageByPipeDealId(deal.dealId);
 
-    // Check if a page with the same "PipeDealId" exists in Notion
-    const existingPage = await findNotionPageByPipeDealId(deal.pipeDealId);
-
-    for (let deal of dealsArray) {
-      if (!existingPage) {
-        console.log("Sending data to Notion");
-        const response = await notion.pages.create({
-          parent: {
-            type: "database_id",
-            database_id: process.env.NOTION_DATABASE_ID,
-          },
-          properties: {
-            Name: {
-              title: [
-                {
-                  type: "text",
-                  text: {
-                    content: deal.dealTitle,
-                  },
-                },
-              ],
+  if (!existingPage) {
+    console.log("Sending data to Notion");
+    const response = await notion.pages.create({
+      parent: {
+        type: "database_id",
+        database_id: process.env.NOTION_DATABASE_ID,
+      },
+      properties: {
+        Name: {
+          title: [
+            {
+              type: "text",
+              text: {
+                content: deal.dealTitle,
+              },
             },
-            PipeDealId: {
-              rich_text: [
-                {
-                  type: "text",
-                  text: {
-                    content: deal.pipeDealId,
-                  },
-                },
-              ],
-            },
-          },
-        });
-        console.log(response);
-      } else {
-        console.log(
-          `Deal with PipeDealId ${deal.pipeDealId} already exists in Notion. Skipping import.`
-        );
-      }
-    }
+          ],
+        },
+        PipeDealId: {
+          number: deal.dealId,
+        },
+        Units: {
+          number: deal.unitsNumber,
+        },
+        Value: {
+          number: deal.value,
+        },
+      },
+    });
+    console.log(response);
+  } else {
+    console.log(
+      `Deal with PipeDealId ${deal.pipeDealId} already exists in Notion. Skipping import.`
+    );
   }
 }
+
+// Fetch Pipedrive deals and process them
+async function fetchAndProcessDeals() {
+  const dealData = await getPipedriveDeals(); // Wait for getPipedriveDeals to complete
+
+  for (let deal of dealData) {
+    await createNotionPage(deal); // Call createNotionPage for each deal
+  }
+}
+
+// Call the function to fetch and process deals
+fetchAndProcessDeals();
+
 module.exports = { getPipedriveDeals, createNotionPage };
