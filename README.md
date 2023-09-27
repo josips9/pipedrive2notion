@@ -2,6 +2,15 @@
 
 Pipedrive to Notion Data Synchronization
 
+## Getting started
+
+- clone this repo
+- in your folder, run in terminal run:
+  - npm install
+  - touch .env file and set your Pipedrive and Notion API's. Set variable for Notion database id
+  - npm run devStart
+  - open browser localhost:3000/pipedrive-deals
+
 ## Overview:
 
 The Pipedrive to Notion Data Synchronization app is a powerful tool that automates the process of importing and updating Pipedrive deal data into Notion databases. This application seamlessly connects two popular platforms, Pipedrive (a customer relationship management tool) and Notion (a versatile productivity and database management tool), allowing businesses to streamline their workflow and centralize their data.
