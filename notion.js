@@ -15,6 +15,10 @@ const dealsArray = [];
 
 let importedDealIds = [];
 
+// Timestamp of the last poll (initialize as 0 or a specific timestamp)
+// This is for checking is there new deals in Pipedrive used by fetchNewDeals()
+let lastPollTimestamp = 0;
+
 // Function for retrieving Pipedrive deal values
 async function getPipedriveDeals() {
   const api = new pipedrive.DealsApi(defaultClient);
@@ -188,6 +192,64 @@ async function fetchAndProcessDeals() {
 }
 
 // Call the function to fetch and process deals
-fetchAndProcessDeals();
+//fetchAndProcessDeals();
+
+// Function to fetch new deals from Pipedrive every fifteen minutes
+async function fetchNewDealsPeriodically() {
+  try {
+    // Fetch and process deals initially
+    await fetchAndProcessDeals();
+
+    const intervalMinutes = 5;
+    setInterval(async () => {
+      console.log(`Fetching new deals every ${intervalMinutes} minutes...`);
+      await fetchAndProcessDeals();
+    }, intervalMinutes * 60 * 1000); // Convert minutes to milliseconds
+  } catch (error) {
+    console.log("Error fetching and processing deals:", error);
+  }
+}
+
+// Call the function to start fetching new deals periodically
+//fetchNewDealsPeriodically();
+
+// Function to check for changes in deal data every fifteen minutes
+async function checkForDealChanges() {
+  try {
+    const intervalMinutes = 15;
+
+    setInterval(async () => {
+      console.log(
+        `Checking for deal changes every ${intervalMinutes} minutes...`
+      );
+
+      const dealData = await getPipedriveDeals(); // Fetch Pipedrive deals
+
+      for (let deal of dealData) {
+        // Compare deal.value and unitsNumber with existing data
+        const existingDeal = dealsArray.find(
+          (existing) => existing.dealId === deal.dealId
+        );
+
+        if (
+          existingDeal &&
+          (existingDeal.value !== deal.value ||
+            existingDeal.unitsNumber !== deal.unitsNumber)
+        ) {
+          // Deal data has changed, update Notion
+          console.log(
+            `Deal data has changed for deal ID ${deal.dealId}. Updating Notion...`
+          );
+          await createNotionPage(deal);
+        }
+      }
+    }, intervalMinutes * 60 * 1000); // Convert minutes to milliseconds
+  } catch (error) {
+    console.error("Error checking for deal changes:", error);
+  }
+}
+
+// Call the function to start periodically checking for deal changes
+//checkForDealChanges();
 
 module.exports = { getPipedriveDeals, createNotionPage };
