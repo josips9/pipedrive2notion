@@ -137,8 +137,36 @@ async function findNotionPageByPipeDealId(pipeDealId) {
   }
 }
 
-// Function to map Pipedrive user ID to Notion user ID
-function mapPipedriveUserToNotionUser() {}
+function mapPipedriveUserToNotionUser(pipedriveUserId) {
+  // Define the mapping between Pipedrive user IDs and Notion user IDs
+  // Initialize the userMapping object
+  const userMapping = {};
+
+  // Define mappings based on environment variables
+  if (process.env.PIPEDRIVE_USER_ID_1 && process.env.NOTION_USER_ID_1) {
+    userMapping[process.env.PIPEDRIVE_USER_ID_1] = process.env.NOTION_USER_ID_1;
+  }
+
+  if (process.env.PIPEDRIVE_USER_ID_2 && process.env.NOTION_USER_ID_2) {
+    userMapping[process.env.PIPEDRIVE_USER_ID_2] = process.env.NOTION_USER_ID_2;
+  }
+
+  if (process.env.PIPEDRIVE_USER_ID_3 && process.env.NOTION_USER_ID_3) {
+    userMapping[process.env.PIPEDRIVE_USER_ID_3] = process.env.NOTION_USER_ID_3;
+  }
+
+  if (process.env.PIPEDRIVE_USER_ID_4 && process.env.NOTION_USER_ID_4) {
+    userMapping[process.env.PIPEDRIVE_USER_ID_4] = process.env.NOTION_USER_ID_4;
+  }
+
+  if (process.env.PIPEDRIVE_USER_ID_5 && process.env.NOTION_USER_ID_5) {
+    userMapping[process.env.PIPEDRIVE_USER_ID_5] = process.env.NOTION_USER_ID_5;
+  }
+
+  if (process.env.PIPEDRIVE_USER_ID_6 && process.env.NOTION_USER_ID_6) {
+    userMapping[process.env.PIPEDRIVE_USER_ID_6] = process.env.NOTION_USER_ID_6;
+  }
+}
 
 // Create new Notion page for each Pipedrive deal
 async function createNotionPage(deal) {
@@ -191,26 +219,6 @@ async function createNotionPage(deal) {
     console.log(
       `Deal with PipeDealId ${deal.pipeDealId} already exists in Notion. Skipping import.`
     );
-  }
-}
-
-function mapPipedriveUserToNotionUser(pipedriveUserId) {
-  // Define the mapping between Pipedrive user IDs and Notion user IDs
-  // Initialize the userMapping object
-  const userMapping = {};
-
-  // Define mappings based on environment variables
-  if (
-    process.env.PIPEDRIVE_USER_ID_ANAMARIJA &&
-    process.env.NOTION_USER_ID_ANAMARIJA
-  ) {
-    userMapping[process.env.PIPEDRIVE_USER_ID_ANAMARIJA] =
-      process.env.NOTION_USER_ID_ANAMARIJA;
-  }
-
-  if (process.env.PIPEDRIVE_USER_ID_ANJA && process.env.NOTION_USER_ID_ANJA) {
-    userMapping[process.env.PIPEDRIVE_USER_ID_ANJA] =
-      process.env.NOTION_USER_ID_ANJA;
   }
 }
 
