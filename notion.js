@@ -86,12 +86,13 @@ async function getPipedriveDeals() {
         const extractedDeal = {
           dealId: deal.id,
           dealTitle: deal.title,
+          dealOwnerId: deal.user_id.id,
+          dealOwner: deal.user_id.name,
           personName: deal.person_id ? deal.person_id.name : "N/A", // Check if person_id exists
           personEmail: emailArray,
           organisationId: deal.org_id.value,
           organisationName: deal.org_id.name,
           organisationAddress: organisationAddress,
-          dealOwner: deal.user_id.name,
           value: deal.value,
           unitsNumber: unitsNumber,
         };
@@ -136,6 +137,9 @@ async function findNotionPageByPipeDealId(pipeDealId) {
   }
 }
 
+// Function to map Pipedrive user ID to Notion user ID
+function mapPipedriveUserToNotionUser() {}
+
 // Create new Notion page for each Pipedrive deal
 async function createNotionPage(deal) {
   console.log("importedDealIds:", importedDealIds); // Debug: Print the imported deal IDs
@@ -172,6 +176,14 @@ async function createNotionPage(deal) {
         Value: {
           number: deal.value,
         },
+        "Deal owner": {
+          people: [
+            {
+              object: "user",
+              id: process.env.NOTION_USER_ID,
+            },
+          ],
+        },
       },
     });
     console.log(response);
@@ -179,6 +191,26 @@ async function createNotionPage(deal) {
     console.log(
       `Deal with PipeDealId ${deal.pipeDealId} already exists in Notion. Skipping import.`
     );
+  }
+}
+
+function mapPipedriveUserToNotionUser(pipedriveUserId) {
+  // Define the mapping between Pipedrive user IDs and Notion user IDs
+  // Initialize the userMapping object
+  const userMapping = {};
+
+  // Define mappings based on environment variables
+  if (
+    process.env.PIPEDRIVE_USER_ID_ANAMARIJA &&
+    process.env.NOTION_USER_ID_ANAMARIJA
+  ) {
+    userMapping[process.env.PIPEDRIVE_USER_ID_ANAMARIJA] =
+      process.env.NOTION_USER_ID_ANAMARIJA;
+  }
+
+  if (process.env.PIPEDRIVE_USER_ID_ANJA && process.env.NOTION_USER_ID_ANJA) {
+    userMapping[process.env.PIPEDRIVE_USER_ID_ANJA] =
+      process.env.NOTION_USER_ID_ANJA;
   }
 }
 
@@ -192,7 +224,7 @@ async function fetchAndProcessDeals() {
 }
 
 // Call the function to fetch and process deals
-//fetchAndProcessDeals();
+// fetchAndProcessDeals();
 
 // Function to fetch new deals from Pipedrive every fifteen minutes
 async function fetchNewDealsPeriodically() {
